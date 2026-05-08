@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexa's Three Year Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e6f0;
+    --muted: #8a879a;
+    --faint: #4a4858;
+    --purple: #9b8fe8;
+    --purple-dim: #6b5fc4;
+    --purple-bg: rgba(155,143,232,0.08);
+    --purple-bg2: rgba(155,143,232,0.14);
+    --green: #7dc4a0;
+    --green-bg: rgba(125,196,160,0.08);
+    --amber: #d4a96a;
+    --amber-bg: rgba(212,169,106,0.08);
+    --teal: #6bbfd4;
+    --teal-bg: rgba(107,191,212,0.08);
+    --teal-border: rgba(107,191,212,0.2);
+    --coral: #e08585;
+    --coral-bg: rgba(224,133,133,0.08);
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  /* TABS */
+  .tab-bar { display: flex; gap: 0; border-bottom: 0.5px solid var(--border2); padding: 0 2rem; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+  .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--faint); background: none; border: none; border-bottom: 2px solid transparent; padding: 1rem 1.25rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; letter-spacing: 0.02em; }
+  .tab-btn:hover { color: var(--muted); }
+  .tab-btn.active { color: var(--purple); border-bottom-color: var(--purple); }
+  .tab-content { display: none; padding: 2.5rem 2rem 5rem; max-width: 960px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  /* SHARED */
+  .section-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin: 2.5rem 0 1rem; }
+  .connector { text-align: center; color: var(--faint); font-size: 18px; margin: 0.35rem 0; }
+  .highlight { border-left: 2px solid var(--purple-dim); border-radius: 0 10px 10px 0; background: var(--purple-bg); padding: 0.85rem 1rem; font-size: 13px; color: var(--muted); line-height: 1.7; margin: 0.75rem 0; }
+  .highlight strong { color: var(--text); font-weight: 500; }
+  .invest-callout { border-left: 2px solid rgba(107,191,212,0.4); border-radius: 0 10px 10px 0; background: var(--teal-bg); padding: 0.85rem 1rem; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 1.25rem; }
+  .invest-callout strong { color: var(--teal); font-weight: 500; }
+
+  /* HEADER */
+  .header { margin-bottom: 3rem; }
+  .header-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem; }
+  .header-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; color: var(--text); }
+  .header-title em { font-style: italic; color: var(--purple); }
+  .starting-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.25rem; }
+  .chip { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border2); color: var(--muted); background: var(--surface); }
+
+  /* PHASE */
+  .phase { border: 0.5px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; background: var(--surface); position: relative; overflow: hidden; }
+  .phase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .phase-y1::before { background: linear-gradient(90deg, var(--purple-dim), transparent); }
+  .phase-y2::before { background: linear-gradient(90deg, #3a8c6e, transparent); }
+  .phase-y3::before { background: linear-gradient(90deg, #a07840, transparent); }
+  .phase-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 1.25rem; }
+  .phase-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; }
+  .badge-y1 { background: var(--purple-bg2); color: var(--purple); }
+  .badge-y2 { background: var(--green-bg); color: var(--green); }
+  .badge-y3 { background: var(--amber-bg); color: var(--amber); }
+  .phase-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--text); }
+  .phase-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .pillar { background: var(--surface2); border-radius: 10px; padding: 0.85rem 1rem; }
+  .pillar-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+  .pillar-items { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+  .pillar-invest { border: 0.5px solid var(--teal-border); }
+  .pillar-invest .pillar-label { color: rgba(107,191,212,0.55); }
+  .lift-card { background: var(--surface2); border-radius: 10px; padding: 0.85rem 1rem; }
+  .lbl { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+  .lift-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-top: 0.5px solid var(--border); }
+  .lift-row:first-of-type { border-top: none; }
+  .lift-name { font-size: 12.5px; color: var(--muted); }
+  .lift-val { font-size: 13px; font-weight: 500; color: var(--text); }
+  .lift-gain { font-size: 11px; color: var(--green); margin-left: 5px; }
+  .lift-total { display: flex; justify-content: space-between; padding-top: 8px; margin-top: 4px; border-top: 0.5px solid var(--border2); }
+  .lift-total-label { font-size: 11px; color: var(--faint); }
+  .lift-total-val { font-size: 13px; font-weight: 500; color: var(--purple); }
+
+  /* ROUTINE */
+  .routine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px; }
+  .routine-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+  .routine-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.85rem; }
+  .routine-subtitle { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin: 1rem 0 0.5rem; padding-top: 0.75rem; border-top: 0.5px solid var(--border); }
+  .routine-subtitle-first { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; }
+  .r-row { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; border-top: 0.5px solid var(--border); }
+  .r-time { font-size: 11.5px; color: var(--faint); min-width: 80px; flex-shrink: 0; padding-top: 2px; }
+  .r-text { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+  .r-note { font-size: 11px; color: var(--faint); display: block; margin-top: 2px; }
+  .r-pill { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 10px; margin-left: 5px; vertical-align: middle; }
+  .rp-gym { background: var(--purple-bg2); color: var(--purple); }
+  .rp-work { background: var(--green-bg); color: var(--green); }
+  .rp-school { background: var(--amber-bg); color: var(--amber); }
+  .rp-food { background: var(--teal-bg); color: var(--teal); }
+  .rp-rest { background: var(--surface2); color: var(--faint); }
+  .rp-skin { background: var(--coral-bg); color: var(--coral); }
+
+  /* PROGRESS TAB */
+  .progress-section { margin-bottom: 2.5rem; }
+  .progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .progress-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-pct { font-size: 12px; color: var(--muted); }
+
+  /* LIFTS */
+  .lift-progress-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+  .lift-progress-row { display: grid; grid-template-columns: 90px 1fr 120px; align-items: center; gap: 12px; padding: 10px 0; border-top: 0.5px solid var(--border); }
+  .lift-progress-row:first-of-type { border-top: none; }
+  .lp-name { font-size: 13px; color: var(--muted); }
+  .lp-bar-wrap { position: relative; }
+  .lp-bar-bg { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .lp-bar-fill { height: 100%; border-radius: 3px; background: var(--purple); transition: width 0.4s ease; }
+  .lp-labels { display: flex; justify-content: space-between; margin-top: 4px; }
+  .lp-label { font-size: 10px; color: var(--faint); }
+  .lp-input-wrap { display: flex; align-items: center; gap: 6px; }
+  .lp-input { background: var(--surface2); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 5px 10px; width: 70px; text-align: center; }
+  .lp-input:focus { outline: none; border-color: var(--purple); }
+  .lp-unit { font-size: 12px; color: var(--faint); }
+
+  /* MILESTONES */
+  .milestone-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+  .milestone-year { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.75rem; }
+  .milestone-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-top: 0.5px solid var(--border); cursor: pointer; }
+  .milestone-item:first-of-type { border-top: none; }
+  .m-check { width: 16px; height: 16px; border-radius: 4px; border: 0.5px solid var(--border2); background: var(--surface2); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .m-check.done { background: var(--purple-dim); border-color: var(--purple); }
+  .m-check.done::after { content: '✓'; font-size: 10px; color: #fff; }
+  .m-text { font-size: 13px; color: var(--muted); line-height: 1.5; transition: color 0.2s; }
+  .m-text.done { color: var(--faint); text-decoration: line-through; }
+  .m-tag { font-size: 10px; padding: 1px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+  .mt-career { background: var(--green-bg); color: var(--green); }
+  .mt-school { background: var(--amber-bg); color: var(--amber); }
+  .mt-invest { background: var(--teal-bg); color: var(--teal); }
+
+  /* SCHOOL TRACKER */
+  .school-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+  .credit-bar-wrap { margin: 1rem 0; }
+  .credit-bar-bg { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+  .credit-bar-fill { height: 100%; border-radius: 4px; background: var(--amber); transition: width 0.4s ease; }
+  .credit-stats { display: flex; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .credit-stat { text-align: center; }
+  .credit-stat-val { font-size: 22px; font-weight: 500; color: var(--text); }
+  .credit-stat-label { font-size: 11px; color: var(--faint); margin-top: 2px; }
+  .credit-setup { display: flex; gap: 10px; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+  .credit-setup label { font-size: 12px; color: var(--muted); }
+  .credit-input { background: var(--surface2); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 5px 10px; width: 80px; }
+  .credit-input:focus { outline: none; border-color: var(--amber); }
+  .term-block { background: var(--surface2); border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 8px; }
+  .term-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .term-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .term-credits { font-size: 11px; color: var(--faint); }
+  .class-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 0.5px solid var(--border); flex-wrap: wrap; }
+  .class-name { font-size: 12.5px; color: var(--muted); flex: 1; min-width: 120px; }
+  .class-credits-badge { font-size: 11px; color: var(--faint); white-space: nowrap; }
+  .class-grade { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 3px 7px; width: 55px; }
+  .class-grade:focus { outline: none; border-color: var(--amber); }
+  .class-done-btn { font-size: 10px; padding: 3px 8px; border-radius: 6px; border: 0.5px solid var(--border2); background: var(--surface); color: var(--faint); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .class-done-btn.done { background: var(--amber-bg); color: var(--amber); border-color: rgba(212,169,106,0.3); }
+  .class-row.completed .class-name { color: var(--faint); text-decoration: line-through; }
+  .add-class-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .add-input { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 5px 10px; flex: 1; min-width: 120px; }
+  .add-input:focus { outline: none; border-color: var(--amber); }
+  .add-input-sm { width: 60px; flex: none; }
+  .btn { font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 5px 12px; border-radius: 8px; border: 0.5px solid var(--border2); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn:hover { color: var(--text); border-color: var(--border2); background: var(--surface); }
+  .btn-purple { border-color: var(--purple-dim); color: var(--purple); background: var(--purple-bg); }
+  .btn-purple:hover { background: var(--purple-bg2); }
+  .btn-amber { border-color: rgba(212,169,106,0.3); color: var(--amber); background: var(--amber-bg); }
+  .add-term-row { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .term-name-input { background: var(--surface2); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 5px 10px; flex: 1; min-width: 140px; }
+  .term-name-input:focus { outline: none; border-color: var(--amber); }
+
+  /* INVESTING GUIDE */
+  .invest-guide-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+  .guide-output { font-size: 13px; color: var(--muted); line-height: 1.8; margin-top: 1rem; min-height: 60px; }
+  .guide-step { padding: 10px 0; border-top: 0.5px solid var(--border); }
+  .guide-step:first-of-type { border-top: none; }
+  .guide-step-main { display: flex; gap: 12px; align-items: flex-start; }
+  .guide-step-num { font-size: 11px; font-weight: 500; color: var(--purple); min-width: 20px; padding-top: 2px; flex-shrink: 0; }
+  .guide-step-body { flex: 1; }
+  .guide-step-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .guide-step-text strong { color: var(--text); font-weight: 500; }
+  .guide-step-text.done-text { color: var(--faint); text-decoration: line-through; }
+  .guide-step-actions { display: flex; gap: 8px; margin-top: 7px; align-items: center; flex-wrap: wrap; }
+  .step-check { width: 16px; height: 16px; border-radius: 4px; border: 0.5px solid var(--border2); background: var(--surface2); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+  .step-check.done { background: var(--purple-dim); border-color: var(--purple); }
+  .step-check.done::after { content: '✓'; font-size: 10px; color: #fff; }
+  .step-qa-toggle { font-size: 11px; padding: 2px 9px; border-radius: 6px; border: 0.5px solid var(--border2); background: none; color: var(--faint); cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .step-qa-toggle:hover { color: var(--purple); border-color: var(--purple-dim); }
+  .step-qa-area { margin-top: 8px; margin-left: 28px; }
+  .step-qa-input { width: 100%; background: var(--surface2); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 7px 10px; resize: none; line-height: 1.5; }
+  .step-qa-input:focus { outline: none; border-color: var(--purple); }
+  .step-qa-send { font-family: 'DM Sans', sans-serif; font-size: 11px; padding: 4px 10px; border-radius: 6px; border: 0.5px solid var(--purple-dim); background: var(--purple-bg); color: var(--purple); cursor: pointer; margin-top: 6px; transition: background 0.2s; }
+  .step-qa-send:hover { background: var(--purple-bg2); }
+  .step-qa-response { margin-top: 8px; font-size: 12.5px; color: var(--muted); line-height: 1.7; background: var(--surface2); border-radius: 8px; padding: 8px 12px; border-left: 2px solid var(--purple-dim); }
+  .step-qa-loading { display: inline-flex; gap: 4px; margin-top: 6px; }
+  .step-qa-loading span { width: 4px; height: 4px; border-radius: 50%; background: var(--purple); animation: dot-bounce 1.2s infinite; }
+  .step-qa-loading span:nth-child(2) { animation-delay: 0.2s; }
+  .step-qa-loading span:nth-child(3) { animation-delay: 0.4s; }
+  .loading-dots { display: inline-flex; gap: 4px; }
+  .loading-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--purple); animation: dot-bounce 1.2s infinite; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-bounce { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+  .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border); text-align: center; font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 640px) {
+    .pillars { grid-template-columns: 1fr 1fr; }
+    .routine-grid { grid-template-columns: 1fr; }
+    .tab-btn { padding: 0.75rem 0.75rem; font-size: 12px; }
+    .lift-progress-row { grid-template-columns: 70px 1fr 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('plan')">Three Year Plan</button>
+  <button class="tab-btn" onclick="switchTab('routine')">Daily Routine</button>
+  <button class="tab-btn" onclick="switchTab('progress')">Progress</button>
+</div>
+
+<!-- TAB 1: THREE YEAR PLAN -->
+<div id="tab-plan" class="tab-content active">
+  <div class="header">
+    <div class="header-eyebrow">Three Year Plan · 2025 – 2028</div>
+    <h1 class="header-title">Promoted.<br><em>Degreed.</em><br>Strong.</h1>
+    <div class="starting-chips">
+      <span class="chip">ACH Ops @ Intuit</span>
+      <span class="chip">CS student · gen ed</span>
+      <span class="chip">175 bench · 255 squat · 325 deadlift</span>
+      <span class="chip">755 lb total</span>
+      <span class="chip">401k + Intuit stock</span>
+    </div>
+  </div>
+
+  <div class="section-label">Year 1 — Build the foundation</div>
+  <div class="phase phase-y1">
+    <div class="phase-head">
+      <span class="phase-badge badge-y1">2025 – 2026</span>
+      <div><div class="phase-title">Get structured, get visible</div><div class="phase-sub">Fix the structure problem first. Everything else depends on it.</div></div>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="pillar-label">Career</div><div class="pillar-items">Complete core job aids + automation docs<br>Make work visible to manager<br>Identify the promotion track</div></div>
+      <div class="pillar"><div class="pillar-label">School</div><div class="pillar-items">Finish gen ed requirements<br>Enroll in first CS core classes<br>Map out remaining degree path</div></div>
+      <div class="pillar"><div class="pillar-label">Structure</div><div class="pillar-items">Weekly Sunday reset ritual<br>One trusted task system<br>Daily routine locked in</div></div>
+      <div class="lift-card">
+        <div class="lbl">Weightlifting — Year 1</div>
+        <div class="lift-row"><span class="lift-name">Bench</span><span class="lift-val">185 lb <span class="lift-gain">+10</span></span></div>
+        <div class="lift-row"><span class="lift-name">Squat</span><span class="lift-val">315 lb <span class="lift-gain">+60</span></span></div>
+        <div class="lift-row"><span class="lift-name">Deadlift</span><span class="lift-val">405 lb <span class="lift-gain">+80</span></span></div>
+        <div class="lift-total"><span class="lift-total-label">Total</span><span class="lift-total-val">905 lb +150</span></div>
+      </div>
+      <div class="pillar pillar-invest"><div class="pillar-label">Investing — Year 1</div><div class="pillar-items">Understand your 401k allocation<br>Learn Intuit stock vesting schedule<br>Read 2–3 foundational books<br>No trading yet — knowledge only</div></div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <div class="section-label">Year 2 — Build momentum</div>
+  <div class="phase phase-y2">
+    <div class="phase-head">
+      <span class="phase-badge badge-y2">2026 – 2027</span>
+      <div><div class="phase-title">Deepen skills, build the case</div><div class="phase-sub">Consistency in Year 1 pays off here.</div></div>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="pillar-label">Career</div><div class="pillar-items">Stretch project or cross-team collab<br>Start formal promotion conversation<br>Portfolio of internal tools built</div></div>
+      <div class="pillar"><div class="pillar-label">School</div><div class="pillar-items">Deep into CS core (DSA, systems)<br>Apply coursework to real projects<br>Halfway to degree</div></div>
+      <div class="pillar"><div class="pillar-label">Structure</div><div class="pillar-items">Refine system based on Y1 learnings<br>Automate more personal admin<br>Protect energy — say no more</div></div>
+      <div class="lift-card">
+        <div class="lbl">Weightlifting — Year 2</div>
+        <div class="lift-row"><span class="lift-name">Bench</span><span class="lift-val">225 lb <span class="lift-gain">+40</span></span></div>
+        <div class="lift-row"><span class="lift-name">Squat</span><span class="lift-val">365 lb <span class="lift-gain">+50</span></span></div>
+        <div class="lift-row"><span class="lift-name">Deadlift</span><span class="lift-val">455 lb <span class="lift-gain">+50</span></span></div>
+        <div class="lift-total"><span class="lift-total-label">Total</span><span class="lift-total-val">1,045 lb +140</span></div>
+      </div>
+      <div class="pillar pillar-invest"><div class="pillar-label">Investing — Year 2</div><div class="pillar-items">Open a brokerage account<br>Start with index funds only<br>Automate a monthly contribution<br>Study with skin in the game now</div></div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <div class="section-label">Year 3 — Arrive</div>
+  <div class="phase phase-y3">
+    <div class="phase-head">
+      <span class="phase-badge badge-y3">2027 – 2028</span>
+      <div><div class="phase-title">Promotion + degree in sight</div><div class="phase-sub">The proof is in the work you've already done.</div></div>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="pillar-label">Career</div><div class="pillar-items">Promotion secured or in active process<br>Go-to for automation + tooling<br>Mentoring newer team members</div></div>
+      <div class="pillar"><div class="pillar-label">School</div><div class="pillar-items">Final year or near-final<br>CS degree on the wall (or imminent)<br>Degree and job title aligned</div></div>
+      <div class="pillar"><div class="pillar-label">Structure</div><div class="pillar-items">Planning feels automatic<br>Systems serve you, not the reverse<br>Life feels manageable</div></div>
+      <div class="lift-card">
+        <div class="lbl">Weightlifting — Year 3</div>
+        <div class="lift-row"><span class="lift-name">Bench</span><span class="lift-val">255 lb <span class="lift-gain">+30</span></span></div>
+        <div class="lift-row"><span class="lift-name">Squat</span><span class="lift-val">405 lb <span class="lift-gain">+40</span></span></div>
+        <div class="lift-row"><span class="lift-name">Deadlift</span><span class="lift-val">500 lb <span class="lift-gain">+45</span></span></div>
+        <div class="lift-total"><span class="lift-total-label">Total</span><span class="lift-total-val">1,160 lb +115</span></div>
+      </div>
+      <div class="pillar pillar-invest"><div class="pillar-label">Investing — Year 3</div><div class="pillar-items">Introduce individual stock picks cautiously<br>Small designated amount for trading<br>Never touch the index fund core<br>Treat early trading losses as tuition</div></div>
+    </div>
+  </div>
+
+  <div class="invest-callout">
+    <strong>The investing mindset:</strong> investing and trading are different skills. Investing is slow, boring, and builds real wealth. Trading is fast, exciting, and most people lose money. Building the foundation first means when you do trade, you're making decisions — not gambling.
+  </div>
+  <div class="footer">Made with intention · 2025–2028</div>
+</div>
+
+<!-- TAB 2: DAILY ROUTINE -->
+<div id="tab-routine" class="tab-content">
+
+  <div class="section-label" style="margin-top:0">Monday — rest day</div>
+  <div class="routine-card">
+    <div class="routine-subtitle-first">Morning</div>
+    <div class="r-row"><span class="r-time">Wake up</span><span class="r-text">Normal wake — no early alarm <span class="r-pill rp-rest">rest</span><span class="r-note">Let your body recover from the weekend.</span></span></div>
+    <div class="r-row"><span class="r-time">Pre-work</span><span class="r-text">Skincare → hair → makeup → get dressed <span class="r-pill rp-skin">skincare</span></span></div>
+    <div class="r-row"><span class="r-time">Pre-work</span><span class="r-text">Breakfast <span class="r-pill rp-food">eat</span></span></div>
+    <div class="r-row"><span class="r-time">7:00 am</span><span class="r-text">At work <span class="r-pill rp-work">Intuit</span></span></div>
+    <div class="routine-subtitle">Afternoon</div>
+    <div class="r-row"><span class="r-time">3:30 pm</span><span class="r-text">Work ends<span class="r-note">5 min output log before you leave.</span></span></div>
+    <div class="r-row"><span class="r-time">4:00 pm</span><span class="r-text">Home — decompress <span class="r-pill rp-rest">free</span><span class="r-note">Start laundry if needed.</span></span></div>
+    <div class="r-row"><span class="r-time">4:20 pm</span><span class="r-text">Snack + school <span class="r-pill rp-school">study</span><span class="r-note">Task already decided the night before.</span></span></div>
+    <div class="routine-subtitle">Evening</div>
+    <div class="r-row"><span class="r-time">6:00 pm</span><span class="r-text">Dinner while studying <span class="r-pill rp-food">eat</span><span class="r-note">Magnesium cranberry drink with dinner.</span></span></div>
+    <div class="r-row"><span class="r-time">6:30 pm</span><span class="r-text">Hard stop on school<span class="r-note">Brush teeth — eating is closed for the night.</span></span></div>
+    <div class="r-row"><span class="r-time">6:30 – 7:00</span><span class="r-text">Chores<span class="r-note">Dishes + litter boxes + laundry if applicable.</span></span></div>
+    <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
+    <div class="r-row"><span class="r-time">7:30 pm</span><span class="r-text">Wind down <span class="r-pill rp-rest">rest</span><span class="r-note">Decide tomorrow's one school task. Leave it open and ready.</span></span></div>
+    <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep<span class="r-note">7 hours before 3am.</span></span></div>
+  </div>
+
+  <div class="section-label">Tue, Wed, Thu — gym days</div>
+  <div class="routine-card">
+    <div class="routine-subtitle-first">Early morning</div>
+    <div class="r-row"><span class="r-time">3:00 am</span><span class="r-text">Wake up <span class="r-pill rp-gym">gym day</span></span></div>
+    <div class="r-row"><span class="r-time">3:00 – 3:20</span><span class="r-text">Eat pre-gym meal <span class="r-pill rp-food">eat</span></span></div>
+    <div class="r-row"><span class="r-time">3:20 – 3:30</span><span class="r-text">Gym prep — change + hair up <span class="r-pill rp-gym">get ready</span><span class="r-note">Gym clothes on, hair up, out the door.</span></span></div>
+    <div class="r-row"><span class="r-time">3:30 – 5:00</span><span class="r-text">Gym <span class="r-pill rp-gym">lift</span><span class="r-note">Log session before you leave.</span></span></div>
+    <div class="routine-subtitle">Morning — post-gym</div>
+    <div class="r-row"><span class="r-time">5:00 am</span><span class="r-text">Home from gym</span></div>
+    <div class="r-row"><span class="r-time">5:00 – 6:20</span><span class="r-text">Get ready for work <span class="r-pill rp-skin">skincare</span><span class="r-note">Freshen up → skincare → hair → makeup → get dressed.</span></span></div>
+    <div class="r-row"><span class="r-time">6:20 – 6:40</span><span class="r-text">Breakfast <span class="r-pill rp-food">eat</span><span class="r-note">Eat, grab your stuff, out the door.</span></span></div>
+    <div class="r-row"><span class="r-time">7:00 am</span><span class="r-text">At work <span class="r-pill rp-work">Intuit</span></span></div>
+    <div class="routine-subtitle">Afternoon</div>
+    <div class="r-row"><span class="r-time">3:30 pm</span><span class="r-text">Work ends<span class="r-note">5 min output log before you leave.</span></span></div>
+    <div class="r-row"><span class="r-time">4:00 pm</span><span class="r-text">Home — decompress <span class="r-pill rp-rest">free</span><span class="r-note">Start laundry if needed.</span></span></div>
+    <div class="r-row"><span class="r-time">4:20 pm</span><span class="r-text">Snack + school <span class="r-pill rp-school">study</span><span class="r-note">Task already decided the night before.</span></span></div>
+    <div class="routine-subtitle">Evening</div>
+    <div class="r-row"><span class="r-time">6:00 pm</span><span class="r-text">Dinner while studying <span class="r-pill rp-food">eat</span><span class="r-note">Magnesium cranberry drink with dinner.</span></span></div>
+    <div class="r-row"><span class="r-time">6:30 pm</span><span class="r-text">Hard stop on school<span class="r-note">Brush teeth — eating is closed for the night.</span></span></div>
+    <div class="r-row"><span class="r-time">6:30 – 7:00</span><span class="r-text">Chores<span class="r-note">Dishes + litter boxes + laundry if applicable.</span></span></div>
+    <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
+    <div class="r-row"><span class="r-time">7:30 pm</span><span class="r-text">Wind down <span class="r-pill rp-rest">rest</span><span class="r-note">Decide tomorrow's one school task. Leave it open and ready.</span></span></div>
+    <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep</span></div>
+  </div>
+
+  <div class="section-label">Friday</div>
+  <div class="routine-card">
+    <div class="routine-subtitle-first">Morning</div>
+    <div class="r-row"><span class="r-time">3:00 am (opt)</span><span class="r-text">Gym if missed a session <span class="r-pill rp-gym">lift</span><span class="r-note">Only if you need to make up a session.</span></span></div>
+    <div class="r-row"><span class="r-time">Pre-work</span><span class="r-text">Skincare → hair → makeup → get dressed <span class="r-pill rp-skin">skincare</span></span></div>
+    <div class="r-row"><span class="r-time">Pre-work</span><span class="r-text">Breakfast <span class="r-pill rp-food">eat</span></span></div>
+    <div class="r-row"><span class="r-time">7:00 am</span><span class="r-text">At work <span class="r-pill rp-work">Intuit</span></span></div>
+    <div class="routine-subtitle">Afternoon</div>
+    <div class="r-row"><span class="r-time">3:30 pm</span><span class="r-text">Work ends</span></div>
+    <div class="r-row"><span class="r-time">Afternoon</span><span class="r-text">Flex <span class="r-pill rp-rest">free</span><span class="r-note">Catch up on anything that slipped, or fully decompress.</span></span></div>
+  </div>
+
+  <div class="section-label">Weekend</div>
+  <div class="routine-grid">
+    <div class="routine-card">
+      <div class="routine-title">Saturday</div>
+      <div class="routine-subtitle-first">Morning</div>
+      <div class="r-row"><span class="r-time">6:00 am</span><span class="r-text">Wake up <span class="r-pill rp-gym">gym day</span></span></div>
+      <div class="r-row"><span class="r-time">6:00 – 6:20</span><span class="r-text">Eat pre-gym meal <span class="r-pill rp-food">eat</span></span></div>
+      <div class="r-row"><span class="r-time">6:20 – 6:30</span><span class="r-text">Gym prep <span class="r-pill rp-skin">skincare + SPF</span><span class="r-note">Skincare + SPF, change, hair up — sun is up.</span></span></div>
+      <div class="r-row"><span class="r-time">6:30 – 8:00</span><span class="r-text">Gym <span class="r-pill rp-gym">lift</span><span class="r-note">Longer session if you want — no work clock.</span></span></div>
+      <div class="r-row"><span class="r-time">Post-gym</span><span class="r-text">Get ready at your own pace<span class="r-note">Hair, makeup, dressed — no rush.</span></span></div>
+      <div class="routine-subtitle">Rest of day</div>
+      <div class="r-row"><span class="r-time">Mid-morning</span><span class="r-text">School deep work <span class="r-pill rp-school">study</span><span class="r-note">Best day for longer assignments.</span></span></div>
+      <div class="r-row"><span class="r-time">Afternoon</span><span class="r-text">Free time <span class="r-pill rp-rest">rest</span><span class="r-note">Protect this. Burnout kills the whole plan.</span></span></div>
+      <div class="routine-subtitle">Evening</div>
+      <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
+      <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep</span></div>
+    </div>
+    <div class="routine-card">
+      <div class="routine-title">Sunday — reset day</div>
+      <div class="routine-subtitle-first">Morning</div>
+      <div class="r-row"><span class="r-time">6:00 am</span><span class="r-text">Wake up <span class="r-pill rp-gym">gym day</span></span></div>
+      <div class="r-row"><span class="r-time">6:00 – 6:20</span><span class="r-text">Eat pre-gym meal <span class="r-pill rp-food">eat</span></span></div>
+      <div class="r-row"><span class="r-time">6:20 – 6:30</span><span class="r-text">Gym prep <span class="r-pill rp-skin">skincare + SPF</span><span class="r-note">Skincare + SPF, change, hair up — sun is up.</span></span></div>
+      <div class="r-row"><span class="r-time">6:30 – 8:00</span><span class="r-text">Gym <span class="r-pill rp-gym">lift</span></span></div>
+      <div class="r-row"><span class="r-time">Post-gym</span><span class="r-text">Get ready at your own pace</span></div>
+      <div class="routine-subtitle">Rest of day</div>
+      <div class="r-row"><span class="r-time">Mid-morning</span><span class="r-text">Weekly reset <span class="r-pill rp-school">plan</span><span class="r-note">Review last week · set 3 work priorities · assign school tasks · check deadlines · plan gym split.</span></span></div>
+      <div class="r-row"><span class="r-time">Afternoon</span><span class="r-text">Light school or rest<span class="r-note">No cramming Sunday nights.</span></span></div>
+      <div class="routine-subtitle">Evening</div>
+      <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
+      <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep</span></div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>The night-before rule:</strong> before bed every night, decide tomorrow's one school task and leave it open and ready. No decisions in the moment — just sit down and start.
+  </div>
+  <div class="footer">Made with intention · 2025–2028</div>
+</div>
+
+<!-- TAB 3: PROGRESS -->
+<div id="tab-progress" class="tab-content">
+
+  <!-- LIFTS -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">Lifting PRs</div>
+      <div class="progress-pct" id="lift-pct"></div>
+    </div>
+    <div class="lift-progress-card">
+      <div id="lift-rows"></div>
+    </div>
+  </div>
+
+  <!-- MILESTONES -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">Milestones</div>
+      <div class="progress-pct" id="milestone-pct"></div>
+    </div>
+    <div id="milestone-list"></div>
+  </div>
+
+  <!-- SCHOOL TRACKER -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">Degree progress</div>
+    </div>
+    <div class="school-card">
+      <div class="credit-setup">
+        <label>Total credits needed:</label>
+        <input class="credit-input" type="number" id="total-credits" placeholder="120" min="1">
+        <label>Prior credits:</label>
+        <input class="credit-input" type="number" id="prior-credits" placeholder="0" min="0">
+        <button class="btn btn-amber" onclick="saveCredits()">Save</button>
+      </div>
+      <div class="credit-stats">
+        <div class="credit-stat"><div class="credit-stat-val" id="stat-completed">0</div><div class="credit-stat-label">Completed</div></div>
+        <div class="credit-stat"><div class="credit-stat-val" id="stat-remaining">—</div><div class="credit-stat-label">Remaining</div></div>
+        <div class="credit-stat"><div class="credit-stat-val" id="stat-pct">—</div><div class="credit-stat-label">Done</div></div>
+      </div>
+      <div class="credit-bar-wrap">
+        <div class="credit-bar-bg"><div class="credit-bar-fill" id="credit-bar" style="width:0%"></div></div>
+      </div>
+      <div id="terms-list"></div>
+      <div class="add-term-row">
+        <input class="term-name-input" id="new-term-name" placeholder="Term name (e.g. Fall 2025)">
+        <button class="btn btn-amber" onclick="addTerm()">+ Add term</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVESTING GUIDE -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">Investing guide</div>
+      <div class="progress-pct" id="guide-pct"></div>
+    </div>
+    <div class="invest-guide-card">
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Work through these steps at your own pace. Check off each one when done and use the notes field to write questions or thoughts as you go.</div>
+      <div id="guide-output"></div>
+    </div>
+  </div>
+
+  <div class="footer">Made with intention · 2025–2028</div>
+</div>
+
+<script>
+  // TAB SWITCHING
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // STORAGE HELPERS
+  function save(key, val) { try { localStorage.setItem('typ_' + key, JSON.stringify(val)); } catch(e) {} }
+  function load(key, def) { try { const v = localStorage.getItem('typ_' + key); return v !== null ? JSON.parse(v) : def; } catch(e) { return def; } }
+
+  // LIFTS
+  const LIFTS = [
+    { name: 'Bench press', start: 175, y1: 185, y2: 225, y3: 255 },
+    { name: 'Squat',       start: 255, y1: 315, y2: 365, y3: 405 },
+    { name: 'Deadlift',    start: 325, y1: 405, y2: 455, y3: 500 },
+  ];
+
+  function renderLifts() {
+    const container = document.getElementById('lift-rows');
+    const prs = load('prs', {});
+    let html = '';
+    LIFTS.forEach(l => {
+      const current = prs[l.name] || l.start;
+      const pct = Math.min(100, Math.max(0, Math.round((current - l.start) / (l.y1 - l.start) * 100)));
+      html += `
+        <div class="lift-progress-row">
+          <span class="lp-name">${l.name}</span>
+          <div class="lp-bar-wrap">
+            <div class="lp-bar-bg"><div class="lp-bar-fill" style="width:${pct}%"></div></div>
+            <div class="lp-labels"><span class="lp-label">${l.start} lb</span><span class="lp-label" style="color:var(--purple)">Goal: ${l.y1} lb</span></div>
+          </div>
+          <div class="lp-input-wrap">
+            <input class="lp-input" type="number" value="${current}" onchange="savePR('${l.name}', this.value)" min="0" max="999">
+            <span class="lp-unit">lb</span>
+          </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+    updateLiftPct();
+  }
+
+  function savePR(name, val) {
+    const prs = load('prs', {});
+    prs[name] = parseInt(val) || 0;
+    save('prs', prs);
+    renderLifts();
+  }
+
+  function updateLiftPct() {
+    const prs = load('prs', {});
+    let total = 0;
+    LIFTS.forEach(l => {
+      const current = prs[l.name] || l.start;
+      total += Math.min(100, Math.max(0, (current - l.start) / (l.y1 - l.start) * 100));
+    });
+    const avg = Math.round(total / LIFTS.length);
+    document.getElementById('lift-pct').textContent = avg + '% to Year 1 goals';
+  }
+
+  // MILESTONES
+  const MILESTONES = [
+    { id: 'm1',  year: 'Year 1', text: 'Complete core job aids and automation docs', tag: 'career' },
+    { id: 'm2',  year: 'Year 1', text: 'Make work visible to manager', tag: 'career' },
+    { id: 'm3',  year: 'Year 1', text: 'Identify what the promotion track looks like', tag: 'career' },
+    { id: 'm4',  year: 'Year 1', text: 'Finish gen ed requirements', tag: 'school' },
+    { id: 'm5',  year: 'Year 1', text: 'Enroll in first CS core classes', tag: 'school' },
+    { id: 'm6',  year: 'Year 1', text: 'Map out remaining degree path', tag: 'school' },
+    { id: 'm7',  year: 'Year 1', text: 'Understand 401k allocation', tag: 'invest' },
+    { id: 'm8',  year: 'Year 1', text: 'Learn Intuit stock vesting schedule', tag: 'invest' },
+    { id: 'm9',  year: 'Year 1', text: 'Read 2–3 foundational investing books', tag: 'invest' },
+    { id: 'm10', year: 'Year 2', text: 'Take on a stretch project or cross-team collab', tag: 'career' },
+    { id: 'm11', year: 'Year 2', text: 'Start formal promotion conversation', tag: 'career' },
+    { id: 'm12', year: 'Year 2', text: 'Build a portfolio of internal tools', tag: 'career' },
+    { id: 'm13', year: 'Year 2', text: 'Deep into CS core — DSA and systems', tag: 'school' },
+    { id: 'm14', year: 'Year 2', text: 'Halfway to degree', tag: 'school' },
+    { id: 'm15', year: 'Year 2', text: 'Open a brokerage account', tag: 'invest' },
+    { id: 'm16', year: 'Year 2', text: 'Start investing in index funds', tag: 'invest' },
+    { id: 'm17', year: 'Year 2', text: 'Automate a monthly contribution', tag: 'invest' },
+    { id: 'm18', year: 'Year 3', text: 'Promotion secured or in active process', tag: 'career' },
+    { id: 'm19', year: 'Year 3', text: 'Known as go-to for automation and tooling', tag: 'career' },
+    { id: 'm20', year: 'Year 3', text: 'CS degree completed or imminent', tag: 'school' },
+    { id: 'm21', year: 'Year 3', text: 'Introduce individual stock picks cautiously', tag: 'invest' },
+    { id: 'm22', year: 'Year 3', text: 'Designate a small amount for active trading', tag: 'invest' },
+  ];
+
+  const TAG_LABELS = { career: 'career', school: 'school', invest: 'investing' };
+  const TAG_CLASSES = { career: 'mt-career', school: 'mt-school', invest: 'mt-invest' };
+
+  function renderMilestones() {
+    const done = load('milestones', {});
+    const years = ['Year 1', 'Year 2', 'Year 3'];
+    let html = '';
+    years.forEach(year => {
+      const items = MILESTONES.filter(m => m.year === year);
+      html += `<div class="milestone-card"><div class="milestone-year">${year}</div>`;
+      items.forEach(m => {
+        const isDone = done[m.id];
+        html += `
+          <div class="milestone-item" onclick="toggleMilestone('${m.id}')">
+            <div class="m-check${isDone ? ' done' : ''}"></div>
+            <div class="m-text${isDone ? ' done' : ''}">${m.text}<span class="m-tag ${TAG_CLASSES[m.tag]}">${TAG_LABELS[m.tag]}</span></div>
+          </div>`;
+      });
+      html += '</div>';
+    });
+    document.getElementById('milestone-list').innerHTML = html;
+    updateMilestonePct();
+  }
+
+  function toggleMilestone(id) {
+    const done = load('milestones', {});
+    done[id] = !done[id];
+    save('milestones', done);
+    renderMilestones();
+  }
+
+  function updateMilestonePct() {
+    const done = load('milestones', {});
+    const total = MILESTONES.length;
+    const completed = Object.values(done).filter(Boolean).length;
+    document.getElementById('milestone-pct').textContent = completed + ' / ' + total + ' complete';
+  }
+
+  // SCHOOL TRACKER
+  function saveCredits() {
+    const total = parseInt(document.getElementById('total-credits').value) || 0;
+    const prior = parseInt(document.getElementById('prior-credits').value) || 0;
+    save('total-credits', total);
+    save('prior-credits', prior);
+    renderSchool();
+  }
+
+  function renderSchool() {
+    const total = load('total-credits', 0);
+    const prior = load('prior-credits', 0);
+    const terms = load('terms', []);
+
+    if (total > 0) {
+      document.getElementById('total-credits').value = total;
+      document.getElementById('prior-credits').value = prior;
+    }
+
+    let completedFromTerms = 0;
+    terms.forEach(t => t.classes.forEach(c => { if (c.done) completedFromTerms += (parseInt(c.credits) || 0); }));
+    const totalCompleted = prior + completedFromTerms;
+    const remaining = total > 0 ? Math.max(0, total - totalCompleted) : null;
+    const pct = total > 0 ? Math.min(100, Math.round(totalCompleted / total * 100)) : 0;
+
+    document.getElementById('stat-completed').textContent = totalCompleted;
+    document.getElementById('stat-remaining').textContent = remaining !== null ? remaining : '—';
+    document.getElementById('stat-pct').textContent = total > 0 ? pct + '%' : '—';
+    document.getElementById('credit-bar').style.width = pct + '%';
+
+    let html = '';
+    terms.forEach((term, ti) => {
+      const termCredits = term.classes.reduce((s, c) => s + (parseInt(c.credits) || 0), 0);
+      html += `<div class="term-block">
+        <div class="term-header">
+          <span class="term-name">${term.name}</span>
+          <span class="term-credits">${termCredits} credits</span>
+        </div>`;
+      term.classes.forEach((cls, ci) => {
+        html += `
+          <div class="class-row${cls.done ? ' completed' : ''}">
+            <span class="class-name">${cls.name}</span>
+            <span class="class-credits-badge">${cls.credits} cr</span>
+            <input class="class-grade" type="text" placeholder="Grade" value="${cls.grade || ''}" onchange="saveGrade(${ti},${ci},this.value)" ${cls.done ? 'disabled' : ''}>
+            <button class="class-done-btn${cls.done ? ' done' : ''}" onclick="toggleClass(${ti},${ci})">${cls.done ? 'Done' : 'Mark done'}</button>
+          </div>`;
+      });
+      html += `
+        <div class="add-class-row">
+          <input class="add-input" id="class-name-${ti}" placeholder="Class name">
+          <input class="add-input add-input-sm" id="class-credits-${ti}" type="number" placeholder="Cr" min="1" max="6">
+          <button class="btn btn-amber" onclick="addClass(${ti})">+ Add</button>
+        </div>
+      </div>`;
+    });
+    document.getElementById('terms-list').innerHTML = html;
+  }
+
+  function addTerm() {
+    const name = document.getElementById('new-term-name').value.trim();
+    if (!name) return;
+    const terms = load('terms', []);
+    terms.push({ name, classes: [] });
+    save('terms', terms);
+    document.getElementById('new-term-name').value = '';
+    renderSchool();
+  }
+
+  function addClass(ti) {
+    const name = document.getElementById('class-name-' + ti).value.trim();
+    const credits = parseInt(document.getElementById('class-credits-' + ti).value) || 3;
+    if (!name) return;
+    const terms = load('terms', []);
+    terms[ti].classes.push({ name, credits, grade: '', done: false });
+    save('terms', terms);
+    renderSchool();
+  }
+
+  function saveGrade(ti, ci, grade) {
+    const terms = load('terms', []);
+    terms[ti].classes[ci].grade = grade;
+    save('terms', terms);
+  }
+
+  function toggleClass(ti, ci) {
+    const terms = load('terms', []);
+    terms[ti].classes[ci].done = !terms[ti].classes[ci].done;
+    save('terms', terms);
+    renderSchool();
+  }
+
+  // INVESTING GUIDE — static
+  const GUIDE_STEPS = [
+    { step: 'Understand your 401k allocation', detail: 'Log into your Intuit benefits portal and find your 401k. Look at what funds your money is currently invested in and what percentage is in each. You may be in a default fund — knowing this is step one.' },
+    { step: 'Learn your Intuit RSU vesting schedule', detail: 'Find your RSU grant agreement in your Intuit equity portal (usually Schwab or E*Trade). Understand when each tranche vests, what happens at vest (shares are taxable income), and when you are allowed to sell.' },
+    { step: 'Read one foundational investing book', detail: 'Start with "The Little Book of Common Sense Investing" by John Bogle or "I Will Teach You To Be Rich" by Ramit Sethi. Either one will give you a solid foundation in about a week of reading.' },
+    { step: 'Optimize your 401k contribution', detail: 'Make sure you are contributing at least enough to get the full Intuit employer match — that is free money. Check if your fund selection is age-appropriate; a target-date fund (e.g. Target 2060) is a simple, solid default.' },
+    { step: 'Open a brokerage account', detail: 'Fidelity, Vanguard, or Schwab are all solid choices. Open a Roth IRA first if you qualify based on income — contributions grow tax-free and you can withdraw contributions (not gains) penalty-free if needed.' },
+    { step: 'Start with index funds only', detail: 'Put your first investments into a broad market index fund like VTI (total US market) or VTSAX. These are diversified, low-fee, and outperform most actively managed funds over time. Do not pick individual stocks yet.' },
+    { step: 'Automate a monthly contribution', detail: 'Set up an automatic transfer to your brokerage on payday — even $50–100/month. Automating removes the decision and builds the habit. Increase the amount as you get comfortable.' },
+    { step: 'Study before you trade', detail: 'Before ever buying an individual stock, spend at least 6 months watching the market, reading earnings reports, and understanding how individual companies are valued. Paper trade (simulate without real money) first if you want practice.' },
+  ];
+
+  function renderGuide() {
+    const done = load('invest-step-done', {});
+    const notes = load('invest-step-notes', {});
+    const openNotes = load('invest-step-open', {});
+    let html = '';
+    let completedCount = 0;
+    GUIDE_STEPS.forEach((s, i) => {
+      const isDone = done[i];
+      if (isDone) completedCount++;
+      const note = notes[i] || '';
+      const isOpen = openNotes[i] || false;
+      html += `
+        <div class="guide-step" id="gstep-${i}">
+          <div class="guide-step-main">
+            <div class="step-check${isDone ? ' done' : ''}" onclick="toggleStepDone(${i})"></div>
+            <div class="guide-step-body">
+              <div class="guide-step-text${isDone ? ' done-text' : ''}"><strong>${i+1}. ${s.step}</strong><br>${s.detail}</div>
+              <div class="guide-step-actions">
+                <button class="step-qa-toggle" onclick="toggleNote(${i})">${isOpen ? 'Hide notes' : (note ? 'View notes' : 'Add notes')}</button>
+              </div>
+              <div class="step-qa-area" id="qa-area-${i}" style="display:${isOpen ? 'block' : 'none'}">
+                <textarea class="step-qa-input" id="note-input-${i}" placeholder="Write questions, thoughts, or reminders for this step..." rows="3" onblur="saveNote(${i})">${note}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+    document.getElementById('guide-output').innerHTML = html;
+    document.getElementById('guide-pct').textContent = completedCount + ' / ' + GUIDE_STEPS.length + ' complete';
+  }
+
+  function toggleStepDone(i) {
+    const done = load('invest-step-done', {});
+    done[i] = !done[i];
+    save('invest-step-done', done);
+    renderGuide();
+  }
+
+  function toggleNote(i) {
+    const openNotes = load('invest-step-open', {});
+    openNotes[i] = !openNotes[i];
+    save('invest-step-open', openNotes);
+    renderGuide();
+    if (openNotes[i]) setTimeout(() => { const el = document.getElementById('note-input-' + i); if (el) el.focus(); }, 50);
+  }
+
+  function saveNote(i) {
+    const notes = load('invest-step-notes', {});
+    const el = document.getElementById('note-input-' + i);
+    if (el) { notes[i] = el.value; save('invest-step-notes', notes); }
+  }
+
+  // INIT
+  function init() {
+    renderLifts();
+    renderMilestones();
+    renderSchool();
+    renderGuide();
+  }
+
+  init();
+</script>
+</body>
+</html>
