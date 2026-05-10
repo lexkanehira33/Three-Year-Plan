@@ -228,6 +228,7 @@
   <button class="tab-btn" onclick="switchTab('routine')">Daily Routine</button>
   <button class="tab-btn" onclick="switchTab('progress')">Progress</button>
   <button class="tab-btn" onclick="switchTab('nonneg')">Non-Negotiables</button>
+  <button class="tab-btn" onclick="switchTab('journal')">Journal</button>
 </div>
 
 <!-- TAB 1: THREE YEAR PLAN -->
@@ -975,6 +976,81 @@
   }
 
   // Override init to include non-negotiables
+<!-- TAB 5: JOURNAL -->
+<div id="tab-journal" class="tab-content">
+  <div class="header">
+    <div class="header-eyebrow">Journal</div>
+    <h1 class="header-title" style="font-size:clamp(1.6rem,4vw,2.4rem)">When you don't<br><em>feel like it.</em></h1>
+    <div style="font-size:13px;color:var(--muted);margin-top:1rem;line-height:1.7;">Read the prompts. Pick one. Write until you find the answer.</div>
+  </div>
+
+  <!-- PROMPTS -->
+  <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);margin-bottom:1rem;">Prompts</div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:11px;font-weight:500;color:var(--purple);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">What's actually going on</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.8;">
+        Is this genuine exhaustion or just resistance?<br>
+        What am I actually avoiding — the task, or how I feel right now?<br>
+        Will I feel better or worse about this tomorrow if I skip it?
+      </div>
+    </div>
+
+    <div style="margin-bottom:1rem;padding-top:1rem;border-top:0.5px solid var(--border);">
+      <div style="font-size:11px;font-weight:500;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Reconnect with the why</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.8;">
+        What does the version of me who did the work look like in three years?<br>
+        What would I tell someone else to do right now?<br>
+        Which part of my plan does skipping this put at risk?
+      </div>
+    </div>
+
+    <div style="padding-top:1rem;border-top:0.5px solid var(--border);">
+      <div style="font-size:11px;font-weight:500;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Lower the bar to start</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.8;">
+        What is the smallest possible version of this I could do right now?<br>
+        Can I just open it and do five minutes?<br>
+        What's the one thing that if I only did that, I'd still feel like I showed up?
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNAL AREA -->
+  <div style="margin-bottom:1rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);">Your response</div>
+      <div style="font-size:11px;color:var(--faint);" id="journal-saved-indicator"></div>
+    </div>
+    <textarea id="journal-text" style="width:100%;background:var(--surface);border:0.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;padding:1rem;resize:vertical;min-height:220px;line-height:1.8;" placeholder="Write freely. No one else will see this."></textarea>
+  </div>
+
+  <div style="display:flex;gap:8px;">
+    <button class="btn" style="color:var(--coral);border-color:rgba(224,133,133,0.3);" onclick="resetJournal()">Clear journal</button>
+  </div>
+
+  <div class="footer">Made with intention · 2025–2028</div>
+</div>
+
+  // JOURNAL
+  function initJournal() {
+    const saved = load('journal-text', '');
+    document.getElementById('journal-text').value = saved;
+    document.getElementById('journal-text').addEventListener('input', function() {
+      save('journal-text', this.value);
+      const indicator = document.getElementById('journal-saved-indicator');
+      indicator.textContent = 'Saved';
+      setTimeout(() => { indicator.textContent = ''; }, 1500);
+    });
+  }
+
+  function resetJournal() {
+    if (!confirm('Clear your journal entry?')) return;
+    document.getElementById('journal-text').value = '';
+    save('journal-text', '');
+  }
+
+  // FINAL INIT
   function init() {
     renderLifts();
     renderMilestones();
@@ -982,6 +1058,7 @@
     renderGuide();
     renderNonNeg();
     renderStacks();
+    initJournal();
   }
 
   init();
