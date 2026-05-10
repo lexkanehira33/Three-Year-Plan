@@ -388,8 +388,10 @@
       <div class="r-row"><span class="r-time">6:30 – 8:00</span><span class="r-text">Gym <span class="r-pill rp-gym">lift</span><span class="r-note">Longer session if you want — no work clock.</span></span></div>
       <div class="r-row"><span class="r-time">Post-gym</span><span class="r-text">Get ready at your own pace<span class="r-note">Hair, makeup, dressed — no rush.</span></span></div>
       <div class="routine-subtitle">Rest of day</div>
-      <div class="r-row"><span class="r-time">Mid-morning</span><span class="r-text">School deep work <span class="r-pill rp-school">study</span><span class="r-note">Best day for longer assignments.</span></span></div>
-      <div class="r-row"><span class="r-time">Afternoon</span><span class="r-text">Free time <span class="r-pill rp-rest">rest</span><span class="r-note">Protect this. Burnout kills the whole plan.</span></span></div>
+      <div class="r-row"><span class="r-time">Post-gym – 1pm</span><span class="r-text">Free time <span class="r-pill rp-rest">rest</span><span class="r-note">Fully off the hook — no guilt. Enjoy your morning.</span></span></div>
+      <div class="r-row"><span class="r-time">12:45 pm</span><span class="r-text">Snack + sit down <span class="r-pill rp-school">study prep</span><span class="r-note">Same system as weekdays — task already decided.</span></span></div>
+      <div class="r-row"><span class="r-time">1:00 – 3:00 pm</span><span class="r-text">School deep work <span class="r-pill rp-school">study</span><span class="r-note">Two focused hours. Best day for longer assignments.</span></span></div>
+      <div class="r-row"><span class="r-time">3:00 pm</span><span class="r-text">Hard stop <span class="r-pill rp-rest">free</span><span class="r-note">Afternoon and evening are yours — hockey, UFC, whatever.</span></span></div>
       <div class="routine-subtitle">Evening</div>
       <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
       <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep</span></div>
@@ -403,8 +405,10 @@
       <div class="r-row"><span class="r-time">6:30 – 8:00</span><span class="r-text">Gym <span class="r-pill rp-gym">lift</span></span></div>
       <div class="r-row"><span class="r-time">Post-gym</span><span class="r-text">Get ready at your own pace</span></div>
       <div class="routine-subtitle">Rest of day</div>
-      <div class="r-row"><span class="r-time">Mid-morning</span><span class="r-text">Weekly reset <span class="r-pill rp-school">plan</span><span class="r-note">Review last week · set 3 work priorities · assign school tasks · check deadlines · plan gym split.</span></span></div>
-      <div class="r-row"><span class="r-time">Afternoon</span><span class="r-text">Light school or rest<span class="r-note">No cramming Sunday nights.</span></span></div>
+      <div class="r-row"><span class="r-time">Post-gym</span><span class="r-text">Nails + errands <span class="r-pill rp-rest">out</span><span class="r-note">Get your nails done, run errands — be back by 1.</span></span></div>
+      <div class="r-row"><span class="r-time">12:45 pm</span><span class="r-text">Snack + sit down <span class="r-pill rp-school">study prep</span><span class="r-note">Weekly reset + school task already decided from last night.</span></span></div>
+      <div class="r-row"><span class="r-time">1:00 – 3:00 pm</span><span class="r-text">Weekly reset + school <span class="r-pill rp-school">study</span><span class="r-note">Review last week · set 3 work priorities · assign school tasks · check deadlines · plan gym split.</span></span></div>
+      <div class="r-row"><span class="r-time">3:00 pm</span><span class="r-text">Hard stop <span class="r-pill rp-rest">free</span><span class="r-note">Afternoon and evening are yours — hockey, UFC, whatever.</span></span></div>
       <div class="routine-subtitle">Evening</div>
       <div class="r-row"><span class="r-time">7:00 – 7:30</span><span class="r-text">Shower + skincare + wash face <span class="r-pill rp-skin">skincare</span></span></div>
       <div class="r-row"><span class="r-time">8:00 pm</span><span class="r-text">Asleep</span></div>
@@ -505,6 +509,35 @@
   </div>
 
   <div id="nonneg-list"></div>
+
+  <!-- HABIT STACKS -->
+  <div style="margin-top:2rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);">Habit stacks</div>
+      <button class="btn btn-purple" onclick="openStackModal()">+ Add stack</button>
+    </div>
+    <div style="font-size:12px;color:var(--faint);margin-bottom:1rem;">Each trigger pulls the next habit along automatically.</div>
+    <div id="stack-list"></div>
+  </div>
+
+  <!-- HABIT STACK MODAL -->
+  <div id="stack-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center;">
+    <div style="background:var(--surface);border:0.5px solid var(--border2);border-radius:16px;padding:1.5rem;width:90%;max-width:420px;">
+      <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:1.25rem;" id="stack-modal-title">Add habit stack</div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);display:block;margin-bottom:5px;">Trigger</label>
+        <input id="stack-trigger" class="add-input" style="width:100%;" placeholder="e.g. Brush teeth">
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);display:block;margin-bottom:5px;">Habits (one per line)</label>
+        <textarea id="stack-habits" style="width:100%;background:var(--surface2);border:0.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 10px;resize:vertical;min-height:90px;line-height:1.6;" placeholder="Meditate&#10;Stretch"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn" onclick="closeStackModal()">Cancel</button>
+        <button class="btn btn-purple" onclick="saveStack()">Save</button>
+      </div>
+    </div>
+  </div>
 
   <div id="nonneg-complete-msg" style="display:none;margin-top:1.5rem;">
     <div style="border-left:2px solid var(--purple-dim);border-radius:0 10px 10px 0;background:var(--purple-bg);padding:0.85rem 1rem;font-size:13px;color:var(--muted);line-height:1.7;">
@@ -803,7 +836,7 @@
     { id: 'nn3', text: 'Take supplements', icon: '💊' },
     { id: 'nn4', text: 'Take wellness shot', icon: '⚡' },
     { id: 'nn5', text: 'Stretch', icon: '🧘' },
-    { id: 'nn6', text: 'Drink water consistently', icon: '💧' },
+    { id: 'nn6', text: 'Meditate', icon: '🧠' },
   ];
 
   function getTodayKey() {
@@ -853,6 +886,94 @@
     renderNonNeg();
   }
 
+  // HABIT STACKS
+  let editingStackIdx = null;
+
+  const DEFAULT_STACKS = [
+    { trigger: 'Brush teeth', habits: ['Meditate', 'Stretch'] },
+    { trigger: 'Breakfast', habits: ['Take supplements', 'Take wellness shot'] },
+    { trigger: 'Afternoon snack', habits: ['Sit down for school'] },
+    { trigger: 'Want to change into PJs', habits: ['Shower', 'Wash face', 'PJs on'] },
+  ];
+
+  function getStacks() {
+    const saved = load('habit-stacks', null);
+    if (saved) return saved;
+    save('habit-stacks', DEFAULT_STACKS);
+    return DEFAULT_STACKS;
+  }
+
+  function renderStacks() {
+    const stacks = getStacks();
+    let html = '';
+    stacks.forEach((s, i) => {
+      html += `
+        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);">Trigger</span>
+              <span style="font-size:13px;font-weight:500;color:var(--purple);">${s.trigger}</span>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn" style="font-size:11px;padding:2px 8px;" onclick="editStack(${i})">Edit</button>
+              <button class="btn" style="font-size:11px;padding:2px 8px;color:var(--coral);border-color:rgba(224,133,133,0.3);" onclick="deleteStack(${i})">Delete</button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            ${s.habits.map((h, hi) => `
+              <span style="font-size:12.5px;color:var(--muted);">${h}</span>
+              ${hi < s.habits.length - 1 ? '<span style="color:var(--faint);font-size:12px;">→</span>' : ''}
+            `).join('')}
+          </div>
+        </div>`;
+    });
+    document.getElementById('stack-list').innerHTML = html || '<div style="font-size:13px;color:var(--faint);">No habit stacks yet. Add one above.</div>';
+  }
+
+  function openStackModal(idx = null) {
+    editingStackIdx = idx;
+    document.getElementById('stack-modal-title').textContent = idx !== null ? 'Edit habit stack' : 'Add habit stack';
+    if (idx !== null) {
+      const stacks = getStacks();
+      document.getElementById('stack-trigger').value = stacks[idx].trigger;
+      document.getElementById('stack-habits').value = stacks[idx].habits.join('\n');
+    } else {
+      document.getElementById('stack-trigger').value = '';
+      document.getElementById('stack-habits').value = '';
+    }
+    document.getElementById('stack-modal').style.display = 'flex';
+  }
+
+  function closeStackModal() {
+    document.getElementById('stack-modal').style.display = 'none';
+    editingStackIdx = null;
+  }
+
+  function saveStack() {
+    const trigger = document.getElementById('stack-trigger').value.trim();
+    const habits = document.getElementById('stack-habits').value.split('\n').map(h => h.trim()).filter(Boolean);
+    if (!trigger || habits.length === 0) return;
+    const stacks = getStacks();
+    if (editingStackIdx !== null) {
+      stacks[editingStackIdx] = { trigger, habits };
+    } else {
+      stacks.push({ trigger, habits });
+    }
+    save('habit-stacks', stacks);
+    closeStackModal();
+    renderStacks();
+  }
+
+  function editStack(i) { openStackModal(i); }
+
+  function deleteStack(i) {
+    if (!confirm('Delete this habit stack?')) return;
+    const stacks = getStacks();
+    stacks.splice(i, 1);
+    save('habit-stacks', stacks);
+    renderStacks();
+  }
+
   // Override init to include non-negotiables
   function init() {
     renderLifts();
@@ -860,6 +981,7 @@
     renderSchool();
     renderGuide();
     renderNonNeg();
+    renderStacks();
   }
 
   init();
