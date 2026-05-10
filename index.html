@@ -227,6 +227,7 @@
   <button class="tab-btn active" onclick="switchTab('plan')">Three Year Plan</button>
   <button class="tab-btn" onclick="switchTab('routine')">Daily Routine</button>
   <button class="tab-btn" onclick="switchTab('progress')">Progress</button>
+  <button class="tab-btn" onclick="switchTab('nonneg')">Non-Negotiables</button>
 </div>
 
 <!-- TAB 1: THREE YEAR PLAN -->
@@ -483,10 +484,47 @@
   <div class="footer">Made with intention · 2025–2028</div>
 </div>
 
+<!-- TAB 4: NON-NEGOTIABLES -->
+<div id="tab-nonneg" class="tab-content">
+  <div class="header">
+    <div class="header-eyebrow">Daily Non-Negotiables</div>
+    <h1 class="header-title" style="font-size:clamp(1.6rem,4vw,2.4rem)">Bare minimum.<br><em>Every day.</em></h1>
+    <div style="font-size:13px;color:var(--muted);margin-top:1rem;line-height:1.7;">These are the things you do even when life is chaotic. No excuses, no skipping. They reset every day at midnight.</div>
+  </div>
+
+  <div id="nonneg-date" style="font-size:12px;color:var(--faint);margin-bottom:1.5rem;"></div>
+
+  <div id="nonneg-progress-wrap" style="margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+      <span style="font-size:12px;color:var(--muted);">Today's progress</span>
+      <span style="font-size:12px;color:var(--purple);" id="nonneg-pct">0 / 5</span>
+    </div>
+    <div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;">
+      <div id="nonneg-bar" style="height:100%;border-radius:3px;background:var(--purple);transition:width 0.4s ease;width:0%;"></div>
+    </div>
+  </div>
+
+  <div id="nonneg-list"></div>
+
+  <div id="nonneg-complete-msg" style="display:none;margin-top:1.5rem;">
+    <div style="border-left:2px solid var(--purple-dim);border-radius:0 10px 10px 0;background:var(--purple-bg);padding:0.85rem 1rem;font-size:13px;color:var(--muted);line-height:1.7;">
+      <strong style="color:var(--text);font-weight:500;">You showed up for yourself today. 💜</strong><br>Every single one. That's what the plan is built on.
+    </div>
+  </div>
+
+  <div class="footer">Resets daily at midnight · Made with intention · 2025–2028</div>
+</div>
+
 <script>
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
   // TAB SWITCHING
   function switchTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
     event.target.classList.add('active');
@@ -764,12 +802,70 @@
     if (el) { notes[i] = el.value; save('invest-step-notes', notes); }
   }
 
-  // INIT
+  // NON-NEGOTIABLES
+  const NONNEG = [
+    { id: 'nn1', text: 'Wash face — morning', icon: '🌅' },
+    { id: 'nn2', text: 'Wash face — night', icon: '🌙' },
+    { id: 'nn3', text: 'Take supplements', icon: '💊' },
+    { id: 'nn4', text: 'Take wellness shot', icon: '⚡' },
+    { id: 'nn5', text: 'Stretch', icon: '🧘' },
+    { id: 'nn6', text: 'Drink water consistently', icon: '💧' },
+  ];
+
+  function getTodayKey() {
+    const d = new Date();
+    return `nonneg_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;
+  }
+
+  function renderNonNeg() {
+    const key = getTodayKey();
+    const done = load(key, {});
+    const total = NONNEG.length;
+    const completedCount = Object.values(done).filter(Boolean).length;
+    const pct = Math.round(completedCount / total * 100);
+
+    // Date label
+    const now = new Date();
+    document.getElementById('nonneg-date').textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    // Progress bar
+    document.getElementById('nonneg-pct').textContent = completedCount + ' / ' + total;
+    document.getElementById('nonneg-bar').style.width = pct + '%';
+
+    // Complete message
+    document.getElementById('nonneg-complete-msg').style.display = completedCount === total ? 'block' : 'none';
+
+    // Items
+    let html = '';
+    NONNEG.forEach(item => {
+      const isDone = done[item.id];
+      html += `
+        <div onclick="toggleNonNeg('${item.id}')" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface);border:0.5px solid ${isDone ? 'rgba(155,143,232,0.25)' : 'var(--border)'};border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;${isDone ? 'opacity:0.6;' : ''}">
+          <div style="width:20px;height:20px;border-radius:6px;border:0.5px solid ${isDone ? 'var(--purple)' : 'var(--border2)'};background:${isDone ? 'var(--purple-dim)' : 'var(--surface2)'};flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">
+            ${isDone ? '<span style="font-size:11px;color:#fff;">✓</span>' : ''}
+          </div>
+          <span style="font-size:16px;">${item.icon}</span>
+          <span style="font-size:13px;color:${isDone ? 'var(--faint)' : 'var(--text)'};${isDone ? 'text-decoration:line-through;' : ''}transition:color 0.2s;">${item.text}</span>
+        </div>`;
+    });
+    document.getElementById('nonneg-list').innerHTML = html;
+  }
+
+  function toggleNonNeg(id) {
+    const key = getTodayKey();
+    const done = load(key, {});
+    done[id] = !done[id];
+    save(key, done);
+    renderNonNeg();
+  }
+
+  // Override init to include non-negotiables
   function init() {
     renderLifts();
     renderMilestones();
     renderSchool();
     renderGuide();
+    renderNonNeg();
   }
 
   init();
